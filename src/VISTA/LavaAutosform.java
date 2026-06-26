@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -35,6 +37,8 @@ public class LavaAutosform extends javax.swing.JFrame {
         initComponents();
         cargarClientesEnCombos();
         cargarHistorialServicios(controladorServicio.listarServicios());
+        txtHora.setEditable(false);
+        colocarHoraActual();
 
     }
 
@@ -422,6 +426,8 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel25.setText("HORA:");
 
+        txtHora.addActionListener(this::txtHoraActionPerformed);
+
         jLabel26.setText("OBSERVACIONES:");
 
         btnGuardarServicio.setText("GUARDAR");
@@ -463,12 +469,6 @@ public class LavaAutosform extends javax.swing.JFrame {
                             .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                             .addComponent(txtHora))
                         .addGap(130, 130, 130))))
-            .addGroup(pnlServicioLayout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(169, 169, 169))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlServicioLayout.createSequentialGroup()
                 .addContainerGap(36, Short.MAX_VALUE)
                 .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,6 +484,12 @@ public class LavaAutosform extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addComponent(btnLimpiarMenuServicio)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlServicioLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(154, 154, 154))
         );
         pnlServicioLayout.setVerticalGroup(
             pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -799,7 +805,8 @@ public class LavaAutosform extends javax.swing.JFrame {
             : seleccionadoTipo.toString().trim();
 
     String textoPrecio = txtPrecio.getText().trim();
-    String hora = txtHora.getText().trim();
+    colocarHoraActual();
+String hora = txtHora.getText().trim();
     String observaciones = txtObservaciones.getText().trim();
     Date fechaServicio = jDateChooser2.getDate();
 
@@ -888,6 +895,10 @@ public class LavaAutosform extends javax.swing.JFrame {
         txtBuscar.setText("");
     cargarHistorialServicios(controladorServicio.listarServicios());
     }//GEN-LAST:event_btnLimpiarBusquedaActionPerformed
+
+    private void txtHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1046,6 +1057,17 @@ public class LavaAutosform extends javax.swing.JFrame {
         });
     }
 }
+    
+    
+    private void colocarHoraActual() {
+    DateTimeFormatter formatoHora =
+            DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    String horaActual = LocalTime.now().format(formatoHora);
+
+    txtHora.setText(horaActual);
+}
+    
     
     
     public static void main(String args[]) {
