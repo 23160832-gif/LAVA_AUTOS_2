@@ -70,17 +70,114 @@ public class VentanaPrincipal extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlPrincipal = new javax.swing.JPanel();
+        pnlEncabezado = new javax.swing.JPanel();
+        tabPrincipal = new javax.swing.JTabbedPane();
+        pnlInicio = new javax.swing.JPanel();
+        lblBienvenida = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
+        pnlResumen = new javax.swing.JPanel();
+        lblTotalClientes = new javax.swing.JPanel();
+        lblTotalAutos = new javax.swing.JPanel();
+        lblTotalLavados = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        pnlPrincipal.setLayout(new java.awt.BorderLayout());
+
+        lblBienvenida.setText("BIENVENIDO");
+
+        lblDescripcion.setText("Administra clientes, vehículos, servicios y lavados.");
+
+        pnlResumen.setLayout(new java.awt.GridLayout(1, 3));
+
+        javax.swing.GroupLayout lblTotalClientesLayout = new javax.swing.GroupLayout(lblTotalClientes);
+        lblTotalClientes.setLayout(lblTotalClientesLayout);
+        lblTotalClientesLayout.setHorizontalGroup(
+            lblTotalClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        lblTotalClientesLayout.setVerticalGroup(
+            lblTotalClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        pnlResumen.add(lblTotalClientes);
+
+        javax.swing.GroupLayout lblTotalAutosLayout = new javax.swing.GroupLayout(lblTotalAutos);
+        lblTotalAutos.setLayout(lblTotalAutosLayout);
+        lblTotalAutosLayout.setHorizontalGroup(
+            lblTotalAutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        lblTotalAutosLayout.setVerticalGroup(
+            lblTotalAutosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        pnlResumen.add(lblTotalAutos);
+
+        javax.swing.GroupLayout lblTotalLavadosLayout = new javax.swing.GroupLayout(lblTotalLavados);
+        lblTotalLavados.setLayout(lblTotalLavadosLayout);
+        lblTotalLavadosLayout.setHorizontalGroup(
+            lblTotalLavadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        lblTotalLavadosLayout.setVerticalGroup(
+            lblTotalLavadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        pnlResumen.add(lblTotalLavados);
+
+        javax.swing.GroupLayout pnlInicioLayout = new javax.swing.GroupLayout(pnlInicio);
+        pnlInicio.setLayout(pnlInicioLayout);
+        pnlInicioLayout.setHorizontalGroup(
+            pnlInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInicioLayout.createSequentialGroup()
+                .addGroup(pnlInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlInicioLayout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(pnlResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlInicioLayout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(lblDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlInicioLayout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(lblBienvenida)))
+                .addContainerGap(200, Short.MAX_VALUE))
+        );
+        pnlInicioLayout.setVerticalGroup(
+            pnlInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInicioLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDescripcion)
+                .addGap(18, 18, 18)
+                .addComponent(pnlResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(194, Short.MAX_VALUE))
+        );
+
+        tabPrincipal.addTab("INICIO", pnlInicio);
+
+        pnlEncabezado.add(tabPrincipal);
+
+        lblTitulo.setText("SISTEMA DE GESTION LAVAAUTOS");
+        pnlEncabezado.add(lblTitulo);
+
+        pnlPrincipal.add(pnlEncabezado, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
         );
 
         pack();
@@ -122,5 +219,16 @@ public class VentanaPrincipal extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblBienvenida;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel lblTotalAutos;
+    private javax.swing.JPanel lblTotalClientes;
+    private javax.swing.JPanel lblTotalLavados;
+    private javax.swing.JPanel pnlEncabezado;
+    private javax.swing.JPanel pnlInicio;
+    private javax.swing.JPanel pnlPrincipal;
+    private javax.swing.JPanel pnlResumen;
+    private javax.swing.JTabbedPane tabPrincipal;
     // End of variables declaration//GEN-END:variables
 }
