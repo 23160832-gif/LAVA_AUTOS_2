@@ -4,6 +4,7 @@
  */
 package CONTROLADOR;
 
+//HOLA
 import Datos.RepositorioDatos;
 import MODELO.Lavado;
 import MODELO.Ticket;
