@@ -1,28 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package CONTROLADOR;
 
 import Datos.RepositorioDatos;
 import MODELO.Cliente;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Controlador_Clientes {
 
-    public boolean guardarCliente(String nombre, String telefono,
-            String correo, String direccion) {
+    public boolean guardarCliente(String nombre, String apellidoPaterno,
+            String apellidoMaterno, String genero, String telefono,
+            String correo, String ciudad, Date fechaRegistro) {
 
-        if (nombre == null || nombre.trim().isEmpty()) {
+        if (nombre == null || nombre.trim().isEmpty()
+                || apellidoPaterno == null || apellidoPaterno.trim().isEmpty()
+                || telefono == null || telefono.trim().isEmpty()
+                || fechaRegistro == null) {
             return false;
         }
 
         Cliente cliente = new Cliente(
                 RepositorioDatos.siguienteIdCliente(),
                 nombre.trim(),
+                apellidoPaterno.trim(),
+                apellidoMaterno.trim(),
+                genero.trim(),
                 telefono.trim(),
                 correo.trim(),
-                direccion.trim()
+                ciudad.trim(),
+                fechaRegistro
         );
 
         RepositorioDatos.getClientes().add(cliente);
@@ -30,18 +35,26 @@ public class Controlador_Clientes {
     }
 
     public boolean actualizarCliente(int idCliente, String nombre,
-            String telefono, String correo, String direccion) {
+            String apellidoPaterno, String apellidoMaterno, String genero,
+            String telefono, String correo, String ciudad, Date fechaRegistro) {
 
         Cliente cliente = buscarPorId(idCliente);
 
-        if (cliente == null || nombre == null || nombre.trim().isEmpty()) {
+        if (cliente == null || nombre == null || nombre.trim().isEmpty()
+                || apellidoPaterno == null || apellidoPaterno.trim().isEmpty()
+                || telefono == null || telefono.trim().isEmpty()
+                || fechaRegistro == null) {
             return false;
         }
 
         cliente.setNombre(nombre.trim());
+        cliente.setApellidoPaterno(apellidoPaterno.trim());
+        cliente.setApellidoMaterno(apellidoMaterno.trim());
+        cliente.setGenero(genero.trim());
         cliente.setTelefono(telefono.trim());
         cliente.setCorreo(correo.trim());
-        cliente.setDireccion(direccion.trim());
+        cliente.setCiudad(ciudad.trim());
+        cliente.setFechaRegistro(fechaRegistro);
 
         return true;
     }
@@ -78,9 +91,10 @@ public class Controlador_Clientes {
             return encontrados;
         }
 
+        String busqueda = texto.trim().toLowerCase();
+
         for (Cliente cliente : RepositorioDatos.getClientes()) {
-            if (cliente.getNombre().toLowerCase()
-                    .contains(texto.toLowerCase())) {
+            if (cliente.getNombreCompleto().toLowerCase().contains(busqueda)) {
                 encontrados.add(cliente);
             }
         }

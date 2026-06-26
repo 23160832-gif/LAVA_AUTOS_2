@@ -1,32 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package MODELO;
 
-/**
- *
- * @author OSCAR
- */
+import java.util.Date;
 
 public class Cliente {
 
     private int idCliente;
     private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String genero;
     private String telefono;
     private String correo;
-    private String direccion;
+    private String ciudad;
+    private Date fechaRegistro;
 
     public Cliente() {
     }
 
-    public Cliente(int idCliente, String nombre, String telefono,
-                   String correo, String direccion) {
+    public Cliente(int idCliente, String nombre, String apellidoPaterno,
+                   String apellidoMaterno, String genero, String telefono,
+                   String correo, String ciudad, Date fechaRegistro) {
+
         this.idCliente = idCliente;
         this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.genero = genero;
         this.telefono = telefono;
         this.correo = correo;
-        this.direccion = direccion;
+        this.ciudad = ciudad;
+        this.fechaRegistro = fechaRegistro;
     }
 
     public int getIdCliente() {
@@ -45,6 +48,30 @@ public class Cliente {
         this.nombre = nombre;
     }
 
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
     public String getTelefono() {
         return telefono;
     }
@@ -61,16 +88,28 @@ public class Cliente {
         this.correo = correo;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getNombreCompleto() {
+        return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return getNombreCompleto();
     }
 }

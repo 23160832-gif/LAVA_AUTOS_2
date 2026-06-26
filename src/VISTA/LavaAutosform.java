@@ -4,6 +4,19 @@
  */
 package VISTA;
 
+import CONTROLADOR.Controlador_Clientes;
+import CONTROLADOR.ControladorAutomovil;
+import CONTROLADOR.ControladorServicio;
+import MODELO.Automovil;
+import MODELO.Cliente;
+import MODELO.Servicio;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Anuar
@@ -11,12 +24,18 @@ package VISTA;
 public class LavaAutosform extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LavaAutosform.class.getName());
+    private final Controlador_Clientes controladorClientes = new Controlador_Clientes();
+    private final ControladorAutomovil controladorAutomovil = new ControladorAutomovil();
+    private final ControladorServicio controladorServicio = new ControladorServicio();
 
     /**
      * Creates new form LavaAutosform
      */
     public LavaAutosform() {
         initComponents();
+        cargarClientesEnCombos();
+        cargarHistorialServicios(controladorServicio.listarServicios());
+
     }
 
     /**
@@ -52,50 +71,50 @@ public class LavaAutosform extends javax.swing.JFrame {
         pnlAutomovil = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox2_seleccioneUnCliente = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox3_tipo_auto = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txtModelo = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        txtColor = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        txtPlacas = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        txtAnio = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jComboBox4_EstadoDelAuto = new javax.swing.JComboBox<>();
+        btnGuardarAutomovil = new javax.swing.JButton();
+        btnLimpiarMenuAutomovil = new javax.swing.JButton();
         pnlServicio = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        jComboBox5_SeleccioneUnCliente = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        jComboBox6_SeleccioneUnAutomovil = new javax.swing.JComboBox<>();
         jLabel22 = new javax.swing.JLabel();
-        jComboBox7 = new javax.swing.JComboBox<>();
+        jComboBox7_TipoDeLavado = new javax.swing.JComboBox<>();
         jLabel23 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel25 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        txtHora = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        txtObservaciones = new javax.swing.JTextField();
+        btnGuardarServicio = new javax.swing.JButton();
+        btnLimpiarMenuServicio = new javax.swing.JButton();
         pnlHistorial = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscarHistorialDeServicios = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHistorial = new javax.swing.JTable();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        btnActualizarHistorialDeServicios = new javax.swing.JButton();
+        btnLimpiarBusqueda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,6 +146,7 @@ public class LavaAutosform extends javax.swing.JFrame {
         jLabel9.setText("FECHA REGISTRO:");
 
         btnGuardarCliente.setText("GUARDAR");
+        btnGuardarCliente.addActionListener(this::btnGuardarClienteActionPerformed);
 
         btnLimpiarCliente.setText("LIMPIAR");
         btnLimpiarCliente.addActionListener(this::btnLimpiarClienteActionPerformed);
@@ -245,11 +265,11 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel11.setText("CLIENTE:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un cliente..." }));
+        jComboBox2_seleccioneUnCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un cliente..." }));
 
         jLabel12.setText("TIPO:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SEDAN", "SUV", "PICKUP", "HATCHBACK" }));
+        jComboBox3_tipo_auto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SEDAN", "SUV", "PICKUP", "HATCHBACK" }));
 
         jLabel13.setText("MARCA:");
 
@@ -263,11 +283,13 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel18.setText("ESTADO:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EXCELENTE", "BUENO", "REGULAR", "MALO" }));
+        jComboBox4_EstadoDelAuto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EXCELENTE", "BUENO", "REGULAR", "MALO" }));
 
-        jButton3.setText("GUARDAR");
+        btnGuardarAutomovil.setText("GUARDAR");
+        btnGuardarAutomovil.addActionListener(this::btnGuardarAutomovilActionPerformed);
 
-        jButton4.setText("LIMPIAR");
+        btnLimpiarMenuAutomovil.setText("LIMPIAR");
+        btnLimpiarMenuAutomovil.addActionListener(this::btnLimpiarMenuAutomovilActionPerformed);
 
         javax.swing.GroupLayout pnlAutomovilLayout = new javax.swing.GroupLayout(pnlAutomovil);
         pnlAutomovil.setLayout(pnlAutomovilLayout);
@@ -299,10 +321,10 @@ public class LavaAutosform extends javax.swing.JFrame {
                     .addGroup(pnlAutomovilLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11))
+                            .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2_seleccioneUnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAnio))
                         .addGap(235, 235, 235)))
                 .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAutomovilLayout.createSequentialGroup()
@@ -310,19 +332,19 @@ public class LavaAutosform extends javax.swing.JFrame {
                         .addGap(113, 113, 113))
                     .addGroup(pnlAutomovilLayout.createSequentialGroup()
                         .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox3, 0, 131, Short.MAX_VALUE)
-                            .addComponent(jTextField8)
-                            .addComponent(jTextField10)
+                            .addComponent(jComboBox3_tipo_auto, 0, 131, Short.MAX_VALUE)
+                            .addComponent(txtModelo)
+                            .addComponent(txtPlacas)
                             .addGroup(pnlAutomovilLayout.createSequentialGroup()
                                 .addGap(47, 47, 47)
                                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jComboBox4_EstadoDelAuto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(71, 71, 71))))
             .addGroup(pnlAutomovilLayout.createSequentialGroup()
                 .addGap(172, 172, 172)
-                .addComponent(jButton3)
+                .addComponent(btnGuardarAutomovil)
                 .addGap(45, 45, 45)
-                .addComponent(jButton4)
+                .addComponent(btnLimpiarMenuAutomovil)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(pnlAutomovilLayout.createSequentialGroup()
                 .addGap(224, 224, 224)
@@ -342,16 +364,16 @@ public class LavaAutosform extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox2_seleccioneUnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox3_tipo_auto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(47, 47, 47))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAutomovilLayout.createSequentialGroup()
                         .addGap(190, 190, 190)
@@ -360,20 +382,20 @@ public class LavaAutosform extends javax.swing.JFrame {
                             .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel17)
                     .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox4_EstadoDelAuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(48, 48, 48)
                 .addGroup(pnlAutomovilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnGuardarAutomovil)
+                    .addComponent(btnLimpiarMenuAutomovil))
                 .addContainerGap(162, Short.MAX_VALUE))
         );
 
@@ -383,15 +405,16 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel20.setText("CLIENTE:");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un cliente..." }));
+        jComboBox5_SeleccioneUnCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un cliente..." }));
+        jComboBox5_SeleccioneUnCliente.addActionListener(this::jComboBox5_SeleccioneUnClienteActionPerformed);
 
         jLabel21.setText("AUTOMOVIL:");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un automóvil..." }));
+        jComboBox6_SeleccioneUnAutomovil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un automóvil..." }));
 
         jLabel22.setText("TIPO DE LAVADO:");
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAVADO BASICO", "LAVADO COMPLETO", "LAVADO PREMIUM", "ENCERADO" }));
+        jComboBox7_TipoDeLavado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LAVADO BASICO", "LAVADO COMPLETO", "LAVADO PREMIUM", "ENCERADO" }));
 
         jLabel23.setText("PRECIO:");
 
@@ -401,9 +424,11 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel26.setText("OBSERVACIONES:");
 
-        jButton5.setText("GUARDAR");
+        btnGuardarServicio.setText("GUARDAR");
+        btnGuardarServicio.addActionListener(this::btnGuardarServicioActionPerformed);
 
-        jButton6.setText("LIMPIAR");
+        btnLimpiarMenuServicio.setText("LIMPIAR");
+        btnLimpiarMenuServicio.addActionListener(this::btnLimpiarMenuServicioActionPerformed);
 
         javax.swing.GroupLayout pnlServicioLayout = new javax.swing.GroupLayout(pnlServicio);
         pnlServicio.setLayout(pnlServicioLayout);
@@ -420,8 +445,8 @@ public class LavaAutosform extends javax.swing.JFrame {
                     .addGroup(pnlServicioLayout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox7_TipoDeLavado, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox5_SeleccioneUnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -434,9 +459,9 @@ public class LavaAutosform extends javax.swing.JFrame {
                         .addGap(168, 168, 168))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlServicioLayout.createSequentialGroup()
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox6, 0, 1, Short.MAX_VALUE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                            .addComponent(jTextField13))
+                            .addComponent(jComboBox6_SeleccioneUnAutomovil, 0, 1, Short.MAX_VALUE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(txtHora))
                         .addGap(130, 130, 130))))
             .addGroup(pnlServicioLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
@@ -446,7 +471,7 @@ public class LavaAutosform extends javax.swing.JFrame {
                 .addGap(169, 169, 169))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlServicioLayout.createSequentialGroup()
                 .addContainerGap(36, Short.MAX_VALUE)
-                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
             .addGroup(pnlServicioLayout.createSequentialGroup()
                 .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -455,9 +480,9 @@ public class LavaAutosform extends javax.swing.JFrame {
                         .addComponent(jLabel26))
                     .addGroup(pnlServicioLayout.createSequentialGroup()
                         .addGap(149, 149, 149)
-                        .addComponent(jButton5)
+                        .addComponent(btnGuardarServicio)
                         .addGap(87, 87, 87)
-                        .addComponent(jButton6)))
+                        .addComponent(btnLimpiarMenuServicio)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlServicioLayout.setVerticalGroup(
@@ -465,7 +490,7 @@ public class LavaAutosform extends javax.swing.JFrame {
             .addGroup(pnlServicioLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlServicioLayout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
@@ -474,16 +499,16 @@ public class LavaAutosform extends javax.swing.JFrame {
                             .addComponent(jLabel21))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox5_SeleccioneUnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox6_SeleccioneUnAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel22)
                             .addComponent(jLabel23))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox7_TipoDeLavado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel24)
@@ -493,11 +518,11 @@ public class LavaAutosform extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addGroup(pnlServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(btnGuardarServicio)
+                    .addComponent(btnLimpiarMenuServicio))
                 .addGap(147, 147, 147))
         );
 
@@ -507,8 +532,8 @@ public class LavaAutosform extends javax.swing.JFrame {
 
         jLabel28.setText("BUSCAR:");
 
-        jButton7.setText("BUSCAR");
-        jButton7.addActionListener(this::jButton7ActionPerformed);
+        btnBuscarHistorialDeServicios.setText("BUSCAR");
+        btnBuscarHistorialDeServicios.addActionListener(this::btnBuscarHistorialDeServiciosActionPerformed);
 
         tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -523,10 +548,11 @@ public class LavaAutosform extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblHistorial);
 
-        jButton8.setText("ACTUALIZAR");
-        jButton8.addActionListener(this::jButton8ActionPerformed);
+        btnActualizarHistorialDeServicios.setText("ACTUALIZAR");
+        btnActualizarHistorialDeServicios.addActionListener(this::btnActualizarHistorialDeServiciosActionPerformed);
 
-        jButton9.setText("LIMPIAR");
+        btnLimpiarBusqueda.setText("LIMPIAR");
+        btnLimpiarBusqueda.addActionListener(this::btnLimpiarBusquedaActionPerformed);
 
         javax.swing.GroupLayout pnlHistorialLayout = new javax.swing.GroupLayout(pnlHistorial);
         pnlHistorial.setLayout(pnlHistorialLayout);
@@ -539,9 +565,9 @@ public class LavaAutosform extends javax.swing.JFrame {
                         .addComponent(jLabel27))
                     .addGroup(pnlHistorialLayout.createSequentialGroup()
                         .addGap(157, 157, 157)
-                        .addComponent(jButton8)
+                        .addComponent(btnActualizarHistorialDeServicios)
                         .addGap(57, 57, 57)
-                        .addComponent(jButton9)))
+                        .addComponent(btnLimpiarBusqueda)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHistorialLayout.createSequentialGroup()
                 .addGap(0, 16, Short.MAX_VALUE)
@@ -549,9 +575,9 @@ public class LavaAutosform extends javax.swing.JFrame {
                     .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlHistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(pnlHistorialLayout.createSequentialGroup()
-                            .addComponent(jTextField15)
+                            .addComponent(txtBuscar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton7))
+                            .addComponent(btnBuscarHistorialDeServicios))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21))
         );
@@ -564,14 +590,14 @@ public class LavaAutosform extends javax.swing.JFrame {
                 .addComponent(jLabel28)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlHistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarHistorialDeServicios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(pnlHistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
+                    .addComponent(btnActualizarHistorialDeServicios)
+                    .addComponent(btnLimpiarBusqueda))
                 .addContainerGap(81, Short.MAX_VALUE))
         );
 
@@ -610,20 +636,418 @@ public class LavaAutosform extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoActionPerformed
 
     private void btnLimpiarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarClienteActionPerformed
-        // TODO add your handling code here:
+       limpiarFormularioCliente();
     }//GEN-LAST:event_btnLimpiarClienteActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void btnBuscarHistorialDeServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarHistorialDeServiciosActionPerformed
+         String textoBusqueda = txtBuscar.getText().trim();
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    ArrayList<Servicio> encontrados =
+            controladorServicio.buscarServicios(textoBusqueda);
+
+    cargarHistorialServicios(encontrados);
+    }//GEN-LAST:event_btnBuscarHistorialDeServiciosActionPerformed
+
+    private void btnActualizarHistorialDeServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarHistorialDeServiciosActionPerformed
+            cargarHistorialServicios(controladorServicio.listarServicios());
+    }//GEN-LAST:event_btnActualizarHistorialDeServiciosActionPerformed
+
+    private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
+     String nombre = txtNombre.getText().trim();
+    String apellidoPaterno = txtApellidoP.getText().trim();
+    String apellidoMaterno = txtApellidoM.getText().trim();
+
+    Object seleccionGenero = cmbGenero.getSelectedItem();
+    String genero = seleccionGenero == null ? "" : seleccionGenero.toString().trim();
+
+    String telefono = txtTelefono.getText().trim();
+    String correo = txtCorreo.getText().trim();
+    String ciudad = txtCiudad.getText().trim();
+    Date fechaRegistro = dcFechaRegistro.getDate();
+
+    if (nombre.isEmpty() || apellidoPaterno.isEmpty()
+            || genero.isEmpty() || telefono.isEmpty()
+            || fechaRegistro == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Completa nombre, apellido paterno, género, teléfono y fecha.",
+                "Datos incompletos",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    boolean guardado = controladorClientes.guardarCliente(
+            nombre,
+            apellidoPaterno,
+            apellidoMaterno,
+            genero,
+            telefono,
+            correo,
+            ciudad,
+            fechaRegistro
+    );
+
+    if (guardado) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Cliente guardado correctamente.",
+                "Registro exitoso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        limpiarFormularioCliente();
+        cargarClientesEnCombos();
+
+    } else {
+        JOptionPane.showMessageDialog(
+                this,
+                "No fue posible guardar el cliente.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+    }//GEN-LAST:event_btnGuardarClienteActionPerformed
+
+    private void btnGuardarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAutomovilActionPerformed
+    Cliente cliente = obtenerClienteSeleccionado(
+            jComboBox2_seleccioneUnCliente
+    );
+
+    String tipo = jComboBox3_tipo_auto.getSelectedItem().toString();
+    String marca = txtMarca.getText().trim();
+    String modelo = txtModelo.getText().trim();
+    String color = txtColor.getText().trim();
+    String placas = txtPlacas.getText().trim();
+    String estado = jComboBox4_EstadoDelAuto.getSelectedItem().toString();
+
+    int anio;
+
+    try {
+        anio = Integer.parseInt(txtAnio.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "El año debe ser un número válido.",
+                "Dato incorrecto",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (cliente == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecciona un cliente.",
+                "Cliente requerido",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    boolean guardado = controladorAutomovil.guardarAutomovil(
+            cliente,
+            tipo,
+            marca,
+            modelo,
+            color,
+            placas,
+            anio,
+            estado
+    );
+
+    if (guardado) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Automóvil guardado correctamente.",
+                "Registro exitoso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        limpiarFormularioAutomovil();
+        cargarAutomovilesServicio();
+
+    } else {
+        JOptionPane.showMessageDialog(
+                this,
+                "Revisa los datos. Las placas no pueden repetirse y el año debe ser válido.",
+                "No se pudo guardar",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+    }//GEN-LAST:event_btnGuardarAutomovilActionPerformed
+
+    private void btnLimpiarMenuAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarMenuAutomovilActionPerformed
+        limpiarFormularioAutomovil();
+    }//GEN-LAST:event_btnLimpiarMenuAutomovilActionPerformed
+
+    private void jComboBox5_SeleccioneUnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5_SeleccioneUnClienteActionPerformed
+       cargarAutomovilesServicio();
+    }//GEN-LAST:event_jComboBox5_SeleccioneUnClienteActionPerformed
+
+    private void btnGuardarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarServicioActionPerformed
+    Cliente cliente = obtenerClienteSeleccionado(
+            jComboBox5_SeleccioneUnCliente
+    );
+
+    Automovil automovil = obtenerAutomovilSeleccionado();
+
+    Object seleccionadoTipo = jComboBox7_TipoDeLavado.getSelectedItem();
+    String tipoLavado = seleccionadoTipo == null
+            ? ""
+            : seleccionadoTipo.toString().trim();
+
+    String textoPrecio = txtPrecio.getText().trim();
+    String hora = txtHora.getText().trim();
+    String observaciones = txtObservaciones.getText().trim();
+    Date fechaServicio = jDateChooser2.getDate();
+
+    if (cliente == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecciona un cliente.",
+                "Cliente requerido",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (automovil == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecciona un automóvil.",
+                "Automóvil requerido",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (fechaServicio == null) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecciona la fecha del servicio.",
+                "Fecha requerida",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    double precio;
+
+    try {
+        precio = Double.parseDouble(textoPrecio);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "El precio debe ser un número válido.",
+                "Precio incorrecto",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    boolean guardado = controladorServicio.guardarServicio(
+            cliente,
+            automovil,
+            tipoLavado,
+            precio,
+            fechaServicio,
+            hora,
+            observaciones
+    );
+
+    if (guardado) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Servicio registrado correctamente.",
+                "Registro exitoso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        limpiarFormularioServicio();
+        cargarHistorialServicios(controladorServicio.listarServicios());
+
+    } else {
+        JOptionPane.showMessageDialog(
+                this,
+                "Revisa los datos del servicio.",
+                "No se pudo registrar",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    }//GEN-LAST:event_btnGuardarServicioActionPerformed
+
+    private void btnLimpiarMenuServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarMenuServicioActionPerformed
+    limpiarFormularioServicio();
+
+    }//GEN-LAST:event_btnLimpiarMenuServicioActionPerformed
+
+    private void btnLimpiarBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarBusquedaActionPerformed
+        txtBuscar.setText("");
+    cargarHistorialServicios(controladorServicio.listarServicios());
+    }//GEN-LAST:event_btnLimpiarBusquedaActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    //Limpia el Menu de Clientes
+    private void limpiarFormularioCliente() {
+    txtNombre.setText("");
+    txtApellidoP.setText("");
+    txtApellidoM.setText("");
+    cmbGenero.setSelectedIndex(-1);
+    txtTelefono.setText("");
+    txtCorreo.setText("");
+    txtCiudad.setText("");
+    dcFechaRegistro.setDate(null);
+
+    txtNombre.requestFocus();
+}
+    
+    //para cargar los clientes existentes en los combos
+    private void cargarClientesEnCombos() {
+    jComboBox2_seleccioneUnCliente.removeAllItems();
+    jComboBox5_SeleccioneUnCliente.removeAllItems();
+
+    jComboBox2_seleccioneUnCliente.addItem("Seleccione un cliente...");
+    jComboBox5_SeleccioneUnCliente.addItem("Seleccione un cliente...");
+
+    for (Cliente cliente : controladorClientes.listarClientes()) {
+        String textoCliente = cliente.getIdCliente()
+                + " - " + cliente.getNombreCompleto();
+
+        jComboBox2_seleccioneUnCliente.addItem(textoCliente);
+        jComboBox5_SeleccioneUnCliente.addItem(textoCliente);
+    }
+}
+    //obtener clientes del combobox
+    private Cliente obtenerClienteSeleccionado(
+        javax.swing.JComboBox<String> combo) {
+
+    Object seleccionado = combo.getSelectedItem();
+
+    if (seleccionado == null) {
+        return null;
+    }
+
+    String texto = seleccionado.toString();
+
+    if (!texto.contains(" - ")) {
+        return null;
+    }
+
+    try {
+        int posicionSeparador = texto.indexOf(" - ");
+        int idCliente = Integer.parseInt(
+                texto.substring(0, posicionSeparador).trim()
+        );
+
+        return controladorClientes.buscarPorId(idCliente);
+
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
+
+    private void limpiarFormularioAutomovil() {
+    jComboBox2_seleccioneUnCliente.setSelectedIndex(0);
+    jComboBox3_tipo_auto.setSelectedIndex(0);
+    txtMarca.setText("");
+    txtModelo.setText("");
+    txtColor.setText("");
+    txtPlacas.setText("");
+    txtAnio.setText("");
+    jComboBox4_EstadoDelAuto.setSelectedIndex(0);
+
+    txtMarca.requestFocus();
+}
+    
+    //caragar los autos de un cliente
+    private void cargarAutomovilesServicio() {
+    jComboBox6_SeleccioneUnAutomovil.removeAllItems();
+    jComboBox6_SeleccioneUnAutomovil.addItem("Seleccione un automóvil...");
+
+    Cliente cliente = obtenerClienteSeleccionado(
+            jComboBox5_SeleccioneUnCliente
+    );
+
+    if (cliente == null) {
+        return;
+    }
+
+    for (Automovil automovil : controladorAutomovil.listarPorCliente(cliente)) {
+        String textoAutomovil = automovil.getIdAutomovil()
+                + " - " + automovil.toString();
+
+        jComboBox6_SeleccioneUnAutomovil.addItem(textoAutomovil);
+    }
+}
+    
+    
+    private Automovil obtenerAutomovilSeleccionado() {
+    Object seleccionado = jComboBox6_SeleccioneUnAutomovil.getSelectedItem();
+
+    if (seleccionado == null) {
+        return null;
+    }
+
+    String texto = seleccionado.toString();
+
+    if (!texto.contains(" - ")) {
+        return null;
+    }
+
+    try {
+        int posicionSeparador = texto.indexOf(" - ");
+        int idAutomovil = Integer.parseInt(
+                texto.substring(0, posicionSeparador).trim()
+        );
+
+        return controladorAutomovil.buscarPorId(idAutomovil);
+
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
+    
+    
+    private void limpiarFormularioServicio() {
+    jComboBox5_SeleccioneUnCliente.setSelectedIndex(0);
+    jComboBox6_SeleccioneUnAutomovil.setSelectedIndex(0);
+    jComboBox7_TipoDeLavado.setSelectedIndex(0);
+
+    txtPrecio.setText("");
+    jDateChooser2.setDate(null);
+    txtHora.setText("");
+    txtObservaciones.setText("");
+
+    txtPrecio.requestFocus();
+}
+    
+    private void cargarHistorialServicios(ArrayList<Servicio> servicios) {
+    DefaultTableModel modelo = (DefaultTableModel) tblHistorial.getModel();
+
+    modelo.setRowCount(0);
+
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+    for (Servicio servicio : servicios) {
+        modelo.addRow(new Object[]{
+            servicio.getIdServicio(),
+            servicio.getCliente().getNombreCompleto(),
+            servicio.getAutomovil().toString(),
+            servicio.getTipoLavado(),
+            formatoFecha.format(servicio.getFechaServicio()),
+            servicio.getHora(),
+            String.format("$%.2f", servicio.getPrecio())
+        });
+    }
+}
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -647,23 +1071,23 @@ public class LavaAutosform extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarHistorialDeServicios;
+    private javax.swing.JButton btnBuscarHistorialDeServicios;
+    private javax.swing.JButton btnGuardarAutomovil;
     private javax.swing.JButton btnGuardarCliente;
+    private javax.swing.JButton btnGuardarServicio;
+    private javax.swing.JButton btnLimpiarBusqueda;
     private javax.swing.JButton btnLimpiarCliente;
+    private javax.swing.JButton btnLimpiarMenuAutomovil;
+    private javax.swing.JButton btnLimpiarMenuServicio;
     private javax.swing.JComboBox<String> cmbGenero;
     private com.toedter.calendar.JDateChooser dcFechaRegistro;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
+    private javax.swing.JComboBox<String> jComboBox2_seleccioneUnCliente;
+    private javax.swing.JComboBox<String> jComboBox3_tipo_auto;
+    private javax.swing.JComboBox<String> jComboBox4_EstadoDelAuto;
+    private javax.swing.JComboBox<String> jComboBox5_SeleccioneUnCliente;
+    private javax.swing.JComboBox<String> jComboBox6_SeleccioneUnAutomovil;
+    private javax.swing.JComboBox<String> jComboBox7_TipoDeLavado;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -694,26 +1118,26 @@ public class LavaAutosform extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JPanel pnlAutomovil;
     private javax.swing.JPanel pnlCliente;
     private javax.swing.JPanel pnlHistorial;
     private javax.swing.JPanel pnlServicio;
     private javax.swing.JTabbedPane tabPrincipal;
     private javax.swing.JTable tblHistorial;
+    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCiudad;
+    private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtHora;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtObservaciones;
+    private javax.swing.JTextField txtPlacas;
+    private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

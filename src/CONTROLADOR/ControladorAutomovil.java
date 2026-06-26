@@ -1,9 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package CONTROLADOR;
-//K
+
 import Datos.RepositorioDatos;
 import MODELO.Automovil;
 import MODELO.Cliente;
@@ -11,26 +7,34 @@ import java.util.ArrayList;
 
 public class ControladorAutomovil {
 
-    public boolean guardarAutomovil(Cliente cliente, String placa,
-            String marca, String modelo, String color, String tipo) {
+    public boolean guardarAutomovil(Cliente cliente, String tipo,
+            String marca, String modelo, String color, String placas,
+            int anio, String estado) {
 
-        if (cliente == null || placa == null || placa.trim().isEmpty()
-                || marca == null || marca.trim().isEmpty()) {
+        if (cliente == null
+                || tipo == null || tipo.trim().isEmpty()
+                || marca == null || marca.trim().isEmpty()
+                || modelo == null || modelo.trim().isEmpty()
+                || placas == null || placas.trim().isEmpty()
+                || estado == null || estado.trim().isEmpty()
+                || anio < 1900 || anio > 2100) {
             return false;
         }
 
-        if (placaYaExiste(placa.trim(), 0)) {
+        if (placasYaExisten(placas.trim(), 0)) {
             return false;
         }
 
         Automovil automovil = new Automovil(
                 RepositorioDatos.siguienteIdAutomovil(),
                 cliente,
-                placa.trim().toUpperCase(),
+                tipo.trim(),
                 marca.trim(),
                 modelo.trim(),
                 color.trim(),
-                tipo.trim()
+                placas.trim().toUpperCase(),
+                anio,
+                estado.trim()
         );
 
         RepositorioDatos.getAutomoviles().add(automovil);
@@ -38,25 +42,34 @@ public class ControladorAutomovil {
     }
 
     public boolean actualizarAutomovil(int idAutomovil, Cliente cliente,
-            String placa, String marca, String modelo, String color, String tipo) {
+            String tipo, String marca, String modelo, String color,
+            String placas, int anio, String estado) {
 
         Automovil automovil = buscarPorId(idAutomovil);
 
-        if (automovil == null || cliente == null
-                || placa == null || placa.trim().isEmpty()) {
+        if (automovil == null
+                || cliente == null
+                || tipo == null || tipo.trim().isEmpty()
+                || marca == null || marca.trim().isEmpty()
+                || modelo == null || modelo.trim().isEmpty()
+                || placas == null || placas.trim().isEmpty()
+                || estado == null || estado.trim().isEmpty()
+                || anio < 1900 || anio > 2100) {
             return false;
         }
 
-        if (placaYaExiste(placa.trim(), idAutomovil)) {
+        if (placasYaExisten(placas.trim(), idAutomovil)) {
             return false;
         }
 
         automovil.setCliente(cliente);
-        automovil.setPlaca(placa.trim().toUpperCase());
+        automovil.setTipo(tipo.trim());
         automovil.setMarca(marca.trim());
         automovil.setModelo(modelo.trim());
         automovil.setColor(color.trim());
-        automovil.setTipo(tipo.trim());
+        automovil.setPlacas(placas.trim().toUpperCase());
+        automovil.setAnio(anio);
+        automovil.setEstado(estado.trim());
 
         return true;
     }
@@ -94,7 +107,8 @@ public class ControladorAutomovil {
         }
 
         for (Automovil automovil : RepositorioDatos.getAutomoviles()) {
-            if (automovil.getCliente().getIdCliente() == cliente.getIdCliente()) {
+            if (automovil.getCliente().getIdCliente()
+                    == cliente.getIdCliente()) {
                 encontrados.add(automovil);
             }
         }
@@ -102,9 +116,9 @@ public class ControladorAutomovil {
         return encontrados;
     }
 
-    private boolean placaYaExiste(String placa, int idExcluir) {
+    private boolean placasYaExisten(String placas, int idExcluir) {
         for (Automovil automovil : RepositorioDatos.getAutomoviles()) {
-            if (automovil.getPlaca().equalsIgnoreCase(placa)
+            if (automovil.getPlacas().equalsIgnoreCase(placas)
                     && automovil.getIdAutomovil() != idExcluir) {
                 return true;
             }

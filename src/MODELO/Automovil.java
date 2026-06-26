@@ -1,36 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package MODELO;
-
-/**
- *
- * @author OSCAR
- */
 
 public class Automovil {
 
     private int idAutomovil;
     private Cliente cliente;
-    private String placa;
+    private String tipo;
     private String marca;
     private String modelo;
     private String color;
-    private String tipo;
+    private String placas;
+    private int anio;
+    private String estado;
 
     public Automovil() {
     }
 
-    public Automovil(int idAutomovil, Cliente cliente, String placa,
-                     String marca, String modelo, String color, String tipo) {
+    public Automovil(int idAutomovil, Cliente cliente, String tipo,
+            String marca, String modelo, String color, String placas,
+            int anio, String estado) {
+
         this.idAutomovil = idAutomovil;
         this.cliente = cliente;
-        this.placa = placa;
+        this.tipo = tipo;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
-        this.tipo = tipo;
+        this.placas = placas;
+        this.anio = anio;
+        this.estado = estado;
     }
 
     public int getIdAutomovil() {
@@ -49,12 +46,12 @@ public class Automovil {
         this.cliente = cliente;
     }
 
-    public String getPlaca() {
-        return placa;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getMarca() {
@@ -81,16 +78,32 @@ public class Automovil {
         this.color = color;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getPlacas() {
+        return placas;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setPlacas(String placas) {
+        this.placas = placas;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return placa + " - " + marca + " " + modelo;
+        return placas + " - " + marca + " " + modelo;
     }
 }
