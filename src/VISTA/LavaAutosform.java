@@ -35,6 +35,12 @@ public class LavaAutosform extends javax.swing.JFrame {
         initComponents();
         cargarClientesEnCombos();
         cargarHistorialServicios(controladorServicio.listarServicios());
+        
+        
+    java.time.LocalTime horaActual = java.time.LocalTime.now();
+    java.time.format.DateTimeFormatter formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+   
+    txtHora.setText(horaActual.format(formatoHora));
 
     }
 
@@ -65,7 +71,7 @@ public class LavaAutosform extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtCiudad = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        dcFechaRegistro = new com.toedter.calendar.JDateChooser();
+        txtFechaRegistro = new com.toedter.calendar.JDateChooser();
         btnGuardarCliente = new javax.swing.JButton();
         btnLimpiarCliente = new javax.swing.JButton();
         pnlAutomovil = new javax.swing.JPanel();
@@ -121,6 +127,8 @@ public class LavaAutosform extends javax.swing.JFrame {
         jLabel1.setText("REGISTRO DE CLIENTE");
 
         jLabel2.setText("NOMBRE:");
+
+        txtNombre.addActionListener(this::txtNombreActionPerformed);
 
         jLabel3.setText("APELLIDO P:");
 
@@ -200,7 +208,7 @@ public class LavaAutosform extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dcFechaRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(111, 111, 111))
             .addGroup(pnlClienteLayout.createSequentialGroup()
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +229,7 @@ public class LavaAutosform extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dcFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlClienteLayout.createSequentialGroup()
                         .addGroup(pnlClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -421,6 +429,8 @@ public class LavaAutosform extends javax.swing.JFrame {
         jLabel24.setText("FECHA DE SERVICIO:");
 
         jLabel25.setText("HORA:");
+
+        txtHora.addActionListener(this::txtHoraActionPerformed);
 
         jLabel26.setText("OBSERVACIONES:");
 
@@ -653,18 +663,20 @@ public class LavaAutosform extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarHistorialDeServiciosActionPerformed
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
-     String nombre = txtNombre.getText().trim();
+
+    String nombre = txtNombre.getText().trim();
     String apellidoPaterno = txtApellidoP.getText().trim();
     String apellidoMaterno = txtApellidoM.getText().trim();
-
+    
     Object seleccionGenero = cmbGenero.getSelectedItem();
     String genero = seleccionGenero == null ? "" : seleccionGenero.toString().trim();
 
     String telefono = txtTelefono.getText().trim();
     String correo = txtCorreo.getText().trim();
     String ciudad = txtCiudad.getText().trim();
-    Date fechaRegistro = dcFechaRegistro.getDate();
+    java.util.Date fechaRegistro = txtFechaRegistro.getDate();
 
+   
     if (nombre.isEmpty() || apellidoPaterno.isEmpty()
             || genero.isEmpty() || telefono.isEmpty()
             || fechaRegistro == null) {
@@ -678,6 +690,54 @@ public class LavaAutosform extends javax.swing.JFrame {
         return;
     }
 
+    if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+        JOptionPane.showMessageDialog(this, "Error: El nombre solo debe contener letras.");
+        return;
+    }
+
+    
+    if (!apellidoPaterno.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+        JOptionPane.showMessageDialog(this, "Error: El apellido paterno solo debe contener letras.");
+        return;
+    }
+
+  
+    if (!apellidoMaterno.isEmpty() && !apellidoMaterno.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+        JOptionPane.showMessageDialog(this, "Error: El apellido materno solo debe contener letras.");
+        return;
+    }
+
+    
+    if (!ciudad.isEmpty() && !ciudad.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+        JOptionPane.showMessageDialog(this, "Error: La ciudad solo debe contener letras.");
+        return;
+    }
+
+   
+    if (!telefono.matches("[0-9]+") || telefono.length() != 10) {
+        JOptionPane.showMessageDialog(this, "Error: El teléfono debe contener exactamente 10 dígitos numéricos.");
+        return;
+    }
+
+   
+    try {
+        
+        java.time.LocalDate fechaIngresada = fechaRegistro.toInstant()
+                                                          .atZone(java.time.ZoneId.systemDefault())
+                                                          .toLocalDate();
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+
+        
+        if (fechaIngresada.isBefore(hoy)) {
+            JOptionPane.showMessageDialog(this, "Error: La fecha de registro no puede ser anterior a la de hoy.");
+            return; 
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al procesar la fecha: " + e.getMessage());
+        return;
+    }
+
+    
     boolean guardado = controladorClientes.guardarCliente(
             nombre,
             apellidoPaterno,
@@ -708,9 +768,11 @@ public class LavaAutosform extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
         );
     }
+
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
     private void btnGuardarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAutomovilActionPerformed
+                                                
     Cliente cliente = obtenerClienteSeleccionado(
             jComboBox2_seleccioneUnCliente
     );
@@ -721,6 +783,17 @@ public class LavaAutosform extends javax.swing.JFrame {
     String color = txtColor.getText().trim();
     String placas = txtPlacas.getText().trim();
     String estado = jComboBox4_EstadoDelAuto.getSelectedItem().toString();
+
+    
+    if (!placas.matches("[a-zA-Z0-9]{7}")) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Las placas deben tener exactamente 7 caracteres (sin símbolos).",
+                "Placas inválidas",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return; // Detiene el registro
+    }
 
     int anio;
 
@@ -776,6 +849,7 @@ public class LavaAutosform extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
         );
     }
+
     }//GEN-LAST:event_btnGuardarAutomovilActionPerformed
 
     private void btnLimpiarMenuAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarMenuAutomovilActionPerformed
@@ -889,6 +963,18 @@ public class LavaAutosform extends javax.swing.JFrame {
     cargarHistorialServicios(controladorServicio.listarServicios());
     }//GEN-LAST:event_btnLimpiarBusquedaActionPerformed
 
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+   
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraActionPerformed
+java.time.LocalTime horaActual = java.time.LocalTime.now();
+    java.time.format.DateTimeFormatter formatoHora = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+    
+    // Asigna la hora del sistema al componente
+    txtHora.setText(horaActual.format(formatoHora));        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -902,7 +988,7 @@ public class LavaAutosform extends javax.swing.JFrame {
     txtTelefono.setText("");
     txtCorreo.setText("");
     txtCiudad.setText("");
-    dcFechaRegistro.setDate(null);
+    txtFechaRegistro.setDate(null);
 
     txtNombre.requestFocus();
 }
@@ -1012,7 +1098,7 @@ public class LavaAutosform extends javax.swing.JFrame {
         return null;
     }
 }
-    
+    //holaaaaaa
     
     private void limpiarFormularioServicio() {
     jComboBox5_SeleccioneUnCliente.setSelectedIndex(0);
@@ -1081,7 +1167,6 @@ public class LavaAutosform extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiarMenuAutomovil;
     private javax.swing.JButton btnLimpiarMenuServicio;
     private javax.swing.JComboBox<String> cmbGenero;
-    private com.toedter.calendar.JDateChooser dcFechaRegistro;
     private javax.swing.JComboBox<String> jComboBox2_seleccioneUnCliente;
     private javax.swing.JComboBox<String> jComboBox3_tipo_auto;
     private javax.swing.JComboBox<String> jComboBox4_EstadoDelAuto;
@@ -1131,6 +1216,7 @@ public class LavaAutosform extends javax.swing.JFrame {
     private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtCorreo;
+    private com.toedter.calendar.JDateChooser txtFechaRegistro;
     private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;

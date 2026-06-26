@@ -112,7 +112,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel9" alignment="1" min="-2" pref="106" max="-2" attributes="0"/>
-                          <Component id="dcFechaRegistro" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
+                          <Component id="txtFechaRegistro" alignment="1" min="-2" pref="114" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
@@ -140,7 +140,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="dcFechaRegistro" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFechaRegistro" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -202,6 +202,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombre">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNombreActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -275,7 +278,7 @@
                 <Property name="text" type="java.lang.String" value="FECHA REGISTRO:"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="dcFechaRegistro">
+            <Component class="com.toedter.calendar.JDateChooser" name="txtFechaRegistro">
             </Component>
             <Component class="javax.swing.JButton" name="btnGuardarCliente">
               <Properties>
@@ -774,6 +777,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtHora">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtHoraActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel26">
               <Properties>
